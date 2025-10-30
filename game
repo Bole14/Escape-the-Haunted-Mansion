@@ -1,0 +1,81 @@
+import random
+
+def intro():
+    print("🏚️ Welcome to 'Escape the Haunted Mansion'!")
+    print("You awaken in a dark, eerie room. You must find the main door and escape alive.")
+    print("Explore rooms, collect keys, and avoid ghosts. You have 3 keys to find.\n")
+
+def choose_direction():
+    print("\nYou see four doors:")
+    print("1. North 🚪")
+    print("2. South 🚪")
+    print("3. East 🚪")
+    print("4. West 🚪")
+    choice = input("Choose a direction (1–4): ")
+    return choice
+
+def encounter():
+    event = random.choice(["ghost", "key", "trap", "nothing"])
+    return event
+
+def ghost_encounter(health):
+    print("\n👻 A ghost appears!")
+    print("1. Fight with courage 💪")
+    print("2. Run away 🏃‍♂️")
+    choice = input("What will you do? (1 or 2): ")
+    if choice == "1":
+        outcome = random.choice(["win", "lose"])
+        if outcome == "win":
+            print("You defeated the ghost! But it drained some of your energy.")
+            health -= 10
+        else:
+            print("The ghost attacked you! -20 health 💔")
+            health -= 20
+    else:
+        print("You ran away safely but lost 5 health from panic. 💨")
+        health -= 5
+    return health
+
+def explore():
+    health = 100
+    keys = 0
+    rooms_visited = 0
+
+    while health > 0 and keys < 3:
+        rooms_visited += 1
+        print(f"\n🏰 Room {rooms_visited}")
+        print(f"Health: {health} | Keys: {keys}/3")
+
+        choice = choose_direction()
+        event = encounter()
+
+        if event == "ghost":
+            health = ghost_encounter(health)
+
+        elif event == "key":
+            print("🔑 You found a mysterious key!")
+            keys += 1
+
+        elif event == "trap":
+            print("💀 You stepped on a hidden trap! -15 health")
+            health -= 15
+
+        else:
+            print("😶 The room is silent... nothing happens.")
+
+    if health <= 0:
+        print("\n☠️ You fainted in the mansion... the ghosts claim your soul forever.")
+    elif keys >= 3:
+        print("\n🎉 You found all 3 keys and unlocked the main door!")
+        print("🏆 Congratulations! You escaped the Haunted Mansion alive!")
+
+def play_game():
+    intro()
+    while True:
+        explore()
+        again = input("\nDo you want to play again? (y/n): ").lower()
+        if again != "y":
+            print("👋 Thanks for playing 'Escape the Haunted Mansion'! Goodbye, survivor.")
+            break
+
+play_game()
