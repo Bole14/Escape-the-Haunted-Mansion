@@ -1,0 +1,79 @@
+import random
+
+def intro():
+    print("🏰 Welcome to the Quest for the Lost Treasure!")
+    print("You are an explorer searching an ancient cave for a legendary treasure.")
+    print("But beware: monsters and traps await inside!\n")
+
+def choose_path():
+    print("\nYou see two paths ahead:")
+    print("1. The dark, narrow tunnel")
+    print("2. The glowing crystal passage")
+    choice = input("Which path will you take (1 or 2)? ")
+    return choice
+
+def fight_or_flee():
+    print("\nA monster appears! 🐉")
+    print("1. Fight bravely")
+    print("2. Run away")
+    choice = input("What will you do? (1 or 2): ")
+    return choice
+
+def explore():
+    health = 100
+    coins = 0
+    rooms = 0
+
+    while health > 0 and rooms < 5:
+        print(f"\n🌍 You have {health} health and {coins} coins.")
+        rooms += 1
+        print(f"\nYou enter room {rooms}...")
+
+        event = random.choice(["monster", "treasure", "trap", "empty"])
+
+        if event == "monster":
+            choice = fight_or_flee()
+            if choice == "1":
+                outcome = random.choice(["win", "lose"])
+                if outcome == "win":
+                    print("You defeated the monster! +10 coins 🪙")
+                    coins += 10
+                else:
+                    print("The monster injured you! -20 health ❤️")
+                    health -= 20
+            else:
+                print("You escaped... but tripped and lost 5 health.")
+                health -= 5
+
+        elif event == "treasure":
+            print("✨ You found a treasure chest!")
+            coins_found = random.randint(10, 30)
+            coins += coins_found
+            print(f"You collect {coins_found} coins 🪙")
+
+        elif event == "trap":
+            print("💀 You fell into a trap! -15 health ❤️")
+            health -= 15
+
+        else:
+            print("The room is empty... you move on cautiously.")
+
+    # Game ending
+    print("\n🎯 Game Over!")
+    if health <= 0:
+        print("You ran out of health... the treasure remains lost.")
+    elif coins >= 50:
+        print("🏆 You found the Lost Treasure and escaped successfully!")
+    else:
+        print("You survived, but didn’t find the treasure this time.")
+
+def play_game():
+    intro()
+    while True:
+        explore()
+        again = input("\nDo you want to play again? (y/n): ").lower()
+        if again != "y":
+            print("Thanks for playing! Goodbye, adventurer 👋")
+            break
+
+play_game()
